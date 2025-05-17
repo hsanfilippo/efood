@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { cores } from '../../styles'
 
-export const Background = styled.div`
+export const Background = styled.header`
   background-size: cover;
   display: block;
   height: 384px;
