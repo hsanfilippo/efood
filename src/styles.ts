@@ -20,6 +20,12 @@ export const GlobalCss = createGlobalStyle`
   }
 `
 
+export const GlobalContainer = styled.div`
+  max-width: 1024px;
+  width: 100%;
+  margin: 0 auto;
+`
+
 export const Logo = styled.img`
   width: 125px;
 `
