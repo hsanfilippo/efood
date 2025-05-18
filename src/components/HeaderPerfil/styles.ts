@@ -14,11 +14,8 @@ export const BannerBg = styled.header`
   color: ${cores.coral};
 
   .container {
-    max-width: 1024px;
-    width: 100%;
     display: flex;
     justify-content: space-between;
-    margin: 0 auto;
     align-items: center;
   }
 `
