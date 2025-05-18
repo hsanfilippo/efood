@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import {
   BannerBg,
   HeroBg,
@@ -16,10 +17,10 @@ const HeaderPerfil = () => (
     <HeaderContainer>
       <BannerBg style={{ backgroundImage: `url(${bannerVector})` }}>
         <GlobalContainer className="container">
-          <h3>Restaurantes</h3>
-          <div>
+          <Link to="/">Restaurantes</Link>
+          <Link to="/">
             <Logo src={logoVector} alt="" />
-          </div>
+          </Link>
           <h3>0 produto(s) no carrinho</h3>
         </GlobalContainer>
       </BannerBg>
