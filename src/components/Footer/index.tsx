@@ -8,7 +8,7 @@ import {
 } from './styles'
 
 import logoVector from '../../assets/images/logo_vector.svg'
-import logoInstagram from '../../assets/images/logo_instagram.svg'
+import logoInstagram from '../../assets/images/logo_instagram.png'
 import logoFacebook from '../../assets/images/logo_facebook.svg'
 import logoTwitter from '../../assets/images/logo_twitter.svg'
 
