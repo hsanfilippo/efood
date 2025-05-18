@@ -1,4 +1,4 @@
-import { Logo } from '../../styles'
+import { Link } from 'react-router-dom'
 
 import {
   FooterContainer,
@@ -7,8 +7,9 @@ import {
   SocialMedia
 } from './styles'
 
+import { Logo } from '../../styles'
 import logoVector from '../../assets/images/logo_vector.svg'
-import logoInstagram from '../../assets/images/logo_instagram.svg'
+import logoInstagram from '../../assets/images/logo_instagram.png'
 import logoFacebook from '../../assets/images/logo_facebook.svg'
 import logoTwitter from '../../assets/images/logo_twitter.svg'
 
@@ -18,9 +19,15 @@ const Footer = () => (
       <LogosContainer>
         <Logo src={logoVector} />
         <SocialMedia>
-          <img src={logoInstagram} alt="Instagram" />
-          <img src={logoFacebook} alt="Facebok" />
-          <img src={logoTwitter} alt="Twitter" />
+          <Link to="#">
+            <img src={logoInstagram} alt="Instagram" />
+          </Link>
+          <Link to="#">
+            <img src={logoFacebook} alt="Facebok" />
+          </Link>
+          <Link to="#">
+            <img src={logoTwitter} alt="Twitter" />
+          </Link>
         </SocialMedia>
       </LogosContainer>
     </InfoContainer>
