@@ -6,6 +6,7 @@ type Props = {
   tags: string[]
 }
 
+import { Link } from 'react-router-dom'
 import rateStar from '../../assets/images/estrela_fav.svg'
 import ButtonTag from '../ButtonTag'
 import {
@@ -34,7 +35,9 @@ const CardRestaurante = ({ image, title, description, rate, tags }: Props) => (
         </Rating>
       </TitleRateContainer>
       <Description>{description}</Description>
-      <ButtonTag isButton text="Saiba mais" />
+      <Link to="/perfil">
+        <ButtonTag isButton text="Saiba mais" />
+      </Link>
     </CardContainer>
   </Card>
 )
