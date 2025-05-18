@@ -12,10 +12,9 @@ export const Container = styled.section`
 export const ListaRestaurantes = styled.ul`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-gap: 80px;
+  grid-gap: 48px;
 `
 
 export const Restaurante = styled.li`
-  background-color: red;
-  margin-bottom: 48px;
+  background-color: ${cores.branco};
 `
