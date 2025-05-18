@@ -1,4 +1,5 @@
-import { Logo, CtaBanner, Background } from './styles'
+import { CtaBanner, Background } from './styles'
+import { Logo } from '../../styles'
 
 import bannerVector from '../../assets/images/banner_vector.svg'
 import logoVector from '../../assets/images/logo_vector.svg'

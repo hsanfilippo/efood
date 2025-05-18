@@ -20,14 +20,10 @@ export const Background = styled.header`
   }
 `
 
-export const Logo = styled.img`
-  width: 125px;
-  margin-bottom: 138px;
-`
-
 export const CtaBanner = styled.h2`
   font-size: 36px;
   font-weight: bolder;
   text-align: center;
   color: ${cores.coral};
+  margin-top: 138px;
 `

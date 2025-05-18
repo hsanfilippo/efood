@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components'
+import styled from 'styled-components'
 
 export const cores = {
   coral: '#E66767',
@@ -17,4 +18,8 @@ export const GlobalCss = createGlobalStyle`
     list-style: none;
     text-decoration: none;
   }
+`
+
+export const Logo = styled.img`
+  width: 125px;
 `
