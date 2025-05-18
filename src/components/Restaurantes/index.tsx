@@ -52,6 +52,28 @@ const Restaurantes = () => (
             tags={['Italiana']}
           />
         </Restaurante>
+        <Restaurante>
+          <CardRestaurante
+            image={thumbMacarraum}
+            title="La Dolce Vita Trattoria"
+            rate={4.6}
+            description={
+              'A La Dolce Vita Trattoria leva a autêntica cozinha italiana até você! Desfrute de massas caseiras, pizzas deliciosas e risotos incríveis, tudo no conforto do seu lar. Entrega rápida, pratos bem embalados e sabor inesquecível. Peça já!'
+            }
+            tags={['Italiana']}
+          />
+        </Restaurante>
+        <Restaurante>
+          <CardRestaurante
+            image={thumbMacarraum}
+            title="La Dolce Vita Trattoria"
+            rate={4.6}
+            description={
+              'A La Dolce Vita Trattoria leva a autêntica cozinha italiana até você! Desfrute de massas caseiras, pizzas deliciosas e risotos incríveis, tudo no conforto do seu lar. Entrega rápida, pratos bem embalados e sabor inesquecível. Peça já!'
+            }
+            tags={['Italiana']}
+          />
+        </Restaurante>
       </ListaRestaurantes>
     </Container>
   </>
