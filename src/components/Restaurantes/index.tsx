@@ -1,5 +1,5 @@
 import CardRestaurante from '../CardRestaurante'
-import { Container, ListaRestaurantes, Restaurante } from './styles'
+import { Container, ListaRestaurantes, RestauranteThumb } from './styles'
 
 import thumbSushi from '../../assets/images/thumb_sushi.png'
 import thumbMacarraum from '../../assets/images/thumb_macarraum.png'
@@ -8,7 +8,7 @@ const Restaurantes = () => (
   <>
     <Container>
       <ListaRestaurantes>
-        <Restaurante>
+        <RestauranteThumb>
           <CardRestaurante
             image={thumbSushi}
             title="Hioki Sushi"
@@ -18,8 +18,8 @@ const Restaurantes = () => (
             }
             tags={['Destaque da semana', 'Japonesa']}
           />
-        </Restaurante>
-        <Restaurante>
+        </RestauranteThumb>
+        <RestauranteThumb>
           <CardRestaurante
             image={thumbMacarraum}
             title="La Dolce Vita Trattoria"
@@ -29,8 +29,8 @@ const Restaurantes = () => (
             }
             tags={['Italiana']}
           />
-        </Restaurante>
-        <Restaurante>
+        </RestauranteThumb>
+        <RestauranteThumb>
           <CardRestaurante
             image={thumbMacarraum}
             title="La Dolce Vita Trattoria"
@@ -40,8 +40,8 @@ const Restaurantes = () => (
             }
             tags={['Italiana']}
           />
-        </Restaurante>
-        <Restaurante>
+        </RestauranteThumb>
+        <RestauranteThumb>
           <CardRestaurante
             image={thumbMacarraum}
             title="La Dolce Vita Trattoria"
@@ -51,8 +51,8 @@ const Restaurantes = () => (
             }
             tags={['Italiana']}
           />
-        </Restaurante>
-        <Restaurante>
+        </RestauranteThumb>
+        <RestauranteThumb>
           <CardRestaurante
             image={thumbMacarraum}
             title="La Dolce Vita Trattoria"
@@ -62,8 +62,8 @@ const Restaurantes = () => (
             }
             tags={['Italiana']}
           />
-        </Restaurante>
-        <Restaurante>
+        </RestauranteThumb>
+        <RestauranteThumb>
           <CardRestaurante
             image={thumbMacarraum}
             title="La Dolce Vita Trattoria"
@@ -73,7 +73,7 @@ const Restaurantes = () => (
             }
             tags={['Italiana']}
           />
-        </Restaurante>
+        </RestauranteThumb>
       </ListaRestaurantes>
     </Container>
   </>

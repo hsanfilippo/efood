@@ -15,6 +15,6 @@ export const ListaRestaurantes = styled.ul`
   grid-gap: 48px;
 `
 
-export const Restaurante = styled.li`
+export const RestauranteThumb = styled.li`
   background-color: ${cores.branco};
 `
