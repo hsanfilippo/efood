@@ -13,7 +13,7 @@ class Restaurante {
     nome: string
     descricao: string
     porcao: string
-  }
+  }[]
 
   constructor(
     id: number,
@@ -30,7 +30,7 @@ class Restaurante {
       nome: string
       descricao: string
       porcao: string
-    }
+    }[]
   ) {
     this.id = id
     this.titulo = titulo
