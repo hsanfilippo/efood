@@ -2,14 +2,40 @@ import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 
 import CardPrato from '../CardPrato'
-import { PratosContainer, PratosList } from './styles'
+import { PratosContainer, PratosList, ModalBody, ModalContent } from './styles'
 import { GlobalContainer } from '../../styles'
 import Restaurante from '../../models/Restaurante'
+import fechar from '../../assets/images/fechar.png'
+import LargeBtn from '../LargeBtn'
+
+type Prato = {
+  foto: string
+  preco: number
+  id: number
+  nome: string
+  descricao: string
+  porcao: string
+}
+
+type ModalState = {
+  isVisible: boolean
+}
 
 const Pratos = () => {
   const { id } = useParams()
 
   const [restaurante, setRestaurante] = useState<Restaurante>()
+  const [pratoSelecionado, setPratoSelecionado] = useState<Prato | null>(null)
+  const [modal, setModal] = useState<ModalState>({
+    isVisible: false
+  })
+
+  const closeModal = () => {
+    setModal({
+      isVisible: false
+    })
+  }
+
   useEffect(() => {
     fetch(`https://fake-api-tau.vercel.app/api/efood/restaurantes/${id}`)
       .then((res) => res.json())
@@ -31,10 +57,46 @@ const Pratos = () => {
                 title={prato.nome}
                 description={prato.descricao}
                 id={prato.id}
+                onClick={() => {
+                  setPratoSelecionado(prato)
+                  setModal({ isVisible: true })
+                }}
               />
             </li>
           ))}
         </PratosList>
+        <ModalBody className={modal.isVisible ? 'visivel' : ''}>
+          <ModalContent className="container">
+            {pratoSelecionado && (
+              <>
+                <header>
+                  <img
+                    src={fechar}
+                    alt="Ícone de fechar"
+                    onClick={() => closeModal()}
+                  />
+                </header>
+                <div className="conteudo">
+                  <img
+                    src={pratoSelecionado.foto}
+                    alt={pratoSelecionado.nome}
+                  />
+                  <div className="info">
+                    <h3>{pratoSelecionado.nome}</h3>
+                    <p>{pratoSelecionado.descricao}</p>
+                    <p>Serve: {pratoSelecionado.porcao}</p>
+                    <LargeBtn
+                      text={`Adicionar ao carrinho - R$ ${pratoSelecionado.preco.toFixed(
+                        2
+                      )}`}
+                    />
+                  </div>
+                </div>
+              </>
+            )}
+          </ModalContent>
+          <div className="overlay" onClick={() => closeModal()}></div>
+        </ModalBody>
       </GlobalContainer>
     </PratosContainer>
   )
