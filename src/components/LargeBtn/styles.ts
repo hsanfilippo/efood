@@ -4,7 +4,7 @@ import { cores } from '../../styles'
 export const ButtonBody = styled.button`
   background-color: ${cores.bege};
   color: ${cores.coral};
-  width: 100%;
+  width: 304px;
   padding: 4px;
   font-size: 14px;
   font-weight: bold;
