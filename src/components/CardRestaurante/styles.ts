@@ -5,6 +5,12 @@ export const Card = styled.div`
   width: 472px;
   position: relative;
   color: ${cores.coral};
+
+  > img {
+    width: 100%;
+    height: 217px;
+    object-fit: cover;
+  }
 `
 
 export const CardContainer = styled.div`
