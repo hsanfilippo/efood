@@ -3,63 +3,42 @@ import CardPrato from '../CardPrato'
 import { PratosContainer, PratosList } from './styles'
 import { GlobalContainer } from '../../styles'
 
-import thumbPizza from '../../assets/images/thumb_pizza.png'
+import Restaurante from '../../models/Restaurante'
+import { useParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 
-const Pratos = () => (
-  <PratosContainer>
-    <GlobalContainer>
-      <PratosList>
-        <li>
-          <CardPrato
-            image={thumbPizza}
-            title="Pizza Marguerita"
-            description="A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!"
-            id={1}
-          />
-        </li>
-        <li>
-          <CardPrato
-            image={thumbPizza}
-            title="Pizza Marguerita"
-            description="A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!"
-            id={2}
-          />
-        </li>
-        <li>
-          <CardPrato
-            image={thumbPizza}
-            title="Pizza Marguerita"
-            description="A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!"
-            id={3}
-          />
-        </li>
-        <li>
-          <CardPrato
-            image={thumbPizza}
-            title="Pizza Marguerita"
-            description="A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!"
-            id={4}
-          />
-        </li>
-        <li>
-          <CardPrato
-            image={thumbPizza}
-            title="Pizza Marguerita"
-            description="A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!"
-            id={5}
-          />
-        </li>
-        <li>
-          <CardPrato
-            image={thumbPizza}
-            title="Pizza Marguerita"
-            description="A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!"
-            id={6}
-          />
-        </li>
-      </PratosList>
-    </GlobalContainer>
-  </PratosContainer>
-)
+const Pratos = () => {
+  const { id } = useParams()
+
+  const [restaurante, setRestaurante] = useState<Restaurante>()
+  useEffect(() => {
+    fetch(`https://fake-api-tau.vercel.app/api/efood/restaurantes/${id}`)
+      .then((res) => res.json())
+      .then((res) => setRestaurante(res))
+  }, [id])
+
+  if (!restaurante) {
+    return <h3>Carregando...</h3>
+  }
+
+  return (
+    <PratosContainer>
+      <GlobalContainer>
+        <PratosList>
+          {restaurante.cardapio.map((prato) => (
+            <li key={id}>
+              <CardPrato
+                image={prato.foto}
+                title={prato.nome}
+                description={prato.descricao}
+                id={prato.id}
+              />
+            </li>
+          ))}
+        </PratosList>
+      </GlobalContainer>
+    </PratosContainer>
+  )
+}
 
 export default Pratos
