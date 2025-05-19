@@ -3,9 +3,6 @@ import CardRestaurante from '../CardRestaurante'
 import { Container, ListaRestaurantes, RestauranteThumb } from './styles'
 import Restaurante from '../../models/Restaurante'
 
-import thumbSushi from '../../assets/images/thumb_sushi.png'
-import thumbMacarraum from '../../assets/images/thumb_macarraum.png'
-
 const Restaurantes = () => {
   const [restaurantes, setRestaurantes] = useState<Restaurante[]>([])
 
@@ -27,6 +24,7 @@ const Restaurantes = () => {
                 rate={restaurante.avaliacao}
                 description={restaurante.descricao}
                 type={restaurante.tipo}
+                restaurante={restaurante}
               />
             </RestauranteThumb>
           ))}
