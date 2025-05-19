@@ -1,65 +1,105 @@
+import { useParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+
 import CardPrato from '../CardPrato'
-
-import { PratosContainer, PratosList } from './styles'
+import { PratosContainer, PratosList, ModalBody, ModalContent } from './styles'
 import { GlobalContainer } from '../../styles'
+import Restaurante from '../../models/Restaurante'
+import fechar from '../../assets/images/fechar.png'
+import LargeBtn from '../LargeBtn'
 
-import thumbPizza from '../../assets/images/thumb_pizza.png'
+type Prato = {
+  foto: string
+  preco: number
+  id: number
+  nome: string
+  descricao: string
+  porcao: string
+}
 
-const Pratos = () => (
-  <PratosContainer>
-    <GlobalContainer>
-      <PratosList>
-        <li>
-          <CardPrato
-            image={thumbPizza}
-            title="Pizza Marguerita"
-            description="A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!"
-            id={1}
-          />
-        </li>
-        <li>
-          <CardPrato
-            image={thumbPizza}
-            title="Pizza Marguerita"
-            description="A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!"
-            id={2}
-          />
-        </li>
-        <li>
-          <CardPrato
-            image={thumbPizza}
-            title="Pizza Marguerita"
-            description="A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!"
-            id={3}
-          />
-        </li>
-        <li>
-          <CardPrato
-            image={thumbPizza}
-            title="Pizza Marguerita"
-            description="A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!"
-            id={4}
-          />
-        </li>
-        <li>
-          <CardPrato
-            image={thumbPizza}
-            title="Pizza Marguerita"
-            description="A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!"
-            id={5}
-          />
-        </li>
-        <li>
-          <CardPrato
-            image={thumbPizza}
-            title="Pizza Marguerita"
-            description="A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!"
-            id={6}
-          />
-        </li>
-      </PratosList>
-    </GlobalContainer>
-  </PratosContainer>
-)
+type ModalState = {
+  isVisible: boolean
+}
+
+const Pratos = () => {
+  const { id } = useParams()
+
+  const [restaurante, setRestaurante] = useState<Restaurante>()
+  const [pratoSelecionado, setPratoSelecionado] = useState<Prato | null>(null)
+  const [modal, setModal] = useState<ModalState>({
+    isVisible: false
+  })
+
+  const closeModal = () => {
+    setModal({
+      isVisible: false
+    })
+  }
+
+  useEffect(() => {
+    fetch(`https://fake-api-tau.vercel.app/api/efood/restaurantes/${id}`)
+      .then((res) => res.json())
+      .then((res) => setRestaurante(res))
+  }, [id])
+
+  if (!restaurante) {
+    return <h3>Carregando...</h3>
+  }
+
+  return (
+    <PratosContainer>
+      <GlobalContainer>
+        <PratosList>
+          {restaurante.cardapio.map((prato) => (
+            <li key={id}>
+              <CardPrato
+                image={prato.foto}
+                title={prato.nome}
+                description={prato.descricao}
+                id={prato.id}
+                onClick={() => {
+                  setPratoSelecionado(prato)
+                  setModal({ isVisible: true })
+                }}
+              />
+            </li>
+          ))}
+        </PratosList>
+        <ModalBody className={modal.isVisible ? 'visivel' : ''}>
+          <ModalContent className="container">
+            {pratoSelecionado && (
+              <>
+                <header>
+                  <img
+                    src={fechar}
+                    alt="Ícone de fechar"
+                    onClick={() => closeModal()}
+                  />
+                </header>
+                <div className="conteudo">
+                  <img
+                    src={pratoSelecionado.foto}
+                    alt={pratoSelecionado.nome}
+                  />
+                  <div className="info">
+                    <h3>{pratoSelecionado.nome}</h3>
+                    <p>{pratoSelecionado.descricao}</p>
+                    <p>Serve: {pratoSelecionado.porcao}</p>
+                    <LargeBtn
+                      text={`Adicionar ao carrinho - R$ ${pratoSelecionado.preco.toFixed(
+                        2
+                      )}`}
+                    />
+                  </div>
+                </div>
+              </>
+            )}
+          </ModalContent>
+          <div className="overlay" onClick={() => closeModal()}></div>
+        </ModalBody>
+      </GlobalContainer>
+    </PratosContainer>
+  )
+}
 
 export default Pratos

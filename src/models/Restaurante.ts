@@ -1,25 +1,45 @@
 class Restaurante {
-  image: string
-  title: string
-  description: string
-  rate: number
-  tags: string[]
   id: number
+  titulo: string
+  destacado: boolean
+  tipo: string
+  avaliacao: number
+  descricao: string
+  capa: string
+  cardapio: {
+    id: number
+    foto: string
+    preco: number
+    nome: string
+    descricao: string
+    porcao: string
+  }[]
 
   constructor(
-    image: string,
-    title: string,
-    description: string,
-    rate: number,
-    tags: string[],
-    id: number
+    id: number,
+    titulo: string,
+    destacado: boolean,
+    tipo: string,
+    avaliacao: number,
+    descricao: string,
+    capa: string,
+    cardapio: {
+      id: number
+      foto: string
+      preco: number
+      nome: string
+      descricao: string
+      porcao: string
+    }[]
   ) {
-    this.image = image
-    this.title = title
-    this.description = description
-    this.rate = rate
-    this.tags = tags
     this.id = id
+    this.titulo = titulo
+    this.destacado = destacado
+    this.tipo = tipo
+    this.avaliacao = avaliacao
+    this.descricao = descricao
+    this.capa = capa
+    this.cardapio = cardapio
   }
 }
 

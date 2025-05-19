@@ -10,9 +10,14 @@ import { Logo, GlobalContainer } from '../../styles'
 
 import bannerVector from '../../assets/images/banner_vector.svg'
 import logoVector from '../../assets/images/logo_vector.svg'
-import heroPerfil from '../../assets/images/hero_macarraum.png'
 
-const HeaderPerfil = () => (
+type Props = {
+  cover: string
+  title: string
+  type: string
+}
+
+const HeaderPerfil = ({ cover, title, type }: Props) => (
   <>
     <HeaderContainer>
       <BannerBg style={{ backgroundImage: `url(${bannerVector})` }}>
@@ -24,10 +29,10 @@ const HeaderPerfil = () => (
           <h3>0 produto(s) no carrinho</h3>
         </GlobalContainer>
       </BannerBg>
-      <HeroBg style={{ backgroundImage: `url(${heroPerfil})` }}>
+      <HeroBg style={{ backgroundImage: `url(${cover})` }}>
         <GlobalContainer>
-          <TagRestaurante>Italiana</TagRestaurante>
-          <TitleRestaurante>La Dolce Vita Trattoria</TitleRestaurante>
+          <TagRestaurante>{type}</TagRestaurante>
+          <TitleRestaurante>{title}</TitleRestaurante>
         </GlobalContainer>
       </HeroBg>
     </HeaderContainer>
