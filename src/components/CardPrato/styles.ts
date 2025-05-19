@@ -20,6 +20,7 @@ export const Card = styled.div`
     position: absolute;
     bottom: 8px;
     left: 8px;
+    cursor: pointer;
   }
 `
 
