@@ -1,11 +1,10 @@
-import CardPrato from '../CardPrato'
-
-import { PratosContainer, PratosList } from './styles'
-import { GlobalContainer } from '../../styles'
-
-import Restaurante from '../../models/Restaurante'
 import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
+
+import CardPrato from '../CardPrato'
+import { PratosContainer, PratosList } from './styles'
+import { GlobalContainer } from '../../styles'
+import Restaurante from '../../models/Restaurante'
 
 const Pratos = () => {
   const { id } = useParams()
