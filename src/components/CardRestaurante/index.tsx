@@ -3,7 +3,7 @@ type Props = {
   title: string
   description: string
   rate: number
-  tags: string[]
+  type: string
 }
 
 import { Link } from 'react-router-dom'
@@ -18,13 +18,11 @@ import {
   TagsContainer
 } from './styles'
 
-const CardRestaurante = ({ image, title, description, rate, tags }: Props) => (
+const CardRestaurante = ({ image, title, description, rate, type }: Props) => (
   <Card>
     <img src={image} alt={title} />
     <TagsContainer>
-      {tags.map((tag) => (
-        <ButtonTag isButton={false} key={tag} text={tag} />
-      ))}
+      <ButtonTag isButton={false} text={type} />
     </TagsContainer>
     <CardContainer>
       <TitleRateContainer>
