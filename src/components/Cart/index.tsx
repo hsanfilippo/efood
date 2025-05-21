@@ -1,14 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux'
 
 import LargeBtn from '../LargeBtn'
-import {
-  CartContainer,
-  CartItem,
-  Overlay,
-  Prices,
-  Quantity,
-  Sidebar
-} from './styles'
+import { CartContainer, CartItem, Overlay, Sidebar, Total } from './styles'
 
 import { RootReducer } from '../../store'
 import { close, remove } from '../../store/reducers/cart'
@@ -45,15 +38,14 @@ const Cart = () => {
                   <h3>{item.nome}</h3>
                   <span>{formataPreco(item.preco)}</span>
                 </div>
-                <button onClick={() => console.log(item.id)} type="button" />
+                <button onClick={() => removeItem(item.id)} type="button" />
               </CartItem>
             ))}
           </ul>
-          <Quantity>2 jogos no carrinho</Quantity>
-          <Prices>
-            Total de R$ 250
-            <span>Em ate 6x sem juros</span>
-          </Prices>
+          <Total>
+            <p>Valor total</p>
+            <p>{formataPreco(getTotalPrice())}</p>
+          </Total>
           <LargeBtn text="Continuar com a entrega" />
         </Sidebar>
       </CartContainer>
