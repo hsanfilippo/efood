@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useState } from 'react'
 
 import CardPrato from '../CardPrato'
@@ -10,6 +10,8 @@ import LargeBtn from '../LargeBtn'
 
 import { useGetRestauranteByIdQuery } from '../../services/api'
 import { add, open } from '../../store/reducers/cart'
+import { closeModal, openModal } from '../../store/reducers/modal'
+import { RootReducer } from '../../store'
 
 type Prato = {
   foto: string
@@ -27,19 +29,11 @@ type ModalState = {
 const Pratos = () => {
   const { id } = useParams()
   const dispatch = useDispatch()
+  const isOpen = useSelector((state: RootReducer) => state.modal.isOpen)
 
   const { data: restaurante } = useGetRestauranteByIdQuery(id!)
 
   const [pratoSelecionado, setPratoSelecionado] = useState<Prato | null>(null)
-  const [modal, setModal] = useState<ModalState>({
-    isVisible: false
-  })
-
-  const closeModal = () => {
-    setModal({
-      isVisible: false
-    })
-  }
 
   const addToCart = (pratoSelecionado: Prato) => {
     dispatch(add(pratoSelecionado!))
@@ -63,13 +57,13 @@ const Pratos = () => {
                 id={prato.id}
                 onClick={() => {
                   setPratoSelecionado(prato)
-                  setModal({ isVisible: true })
+                  dispatch(openModal())
                 }}
               />
             </li>
           ))}
         </PratosList>
-        <ModalBody className={modal.isVisible ? 'visivel' : ''}>
+        <ModalBody className={isOpen ? 'visivel' : ''}>
           <ModalContent className="container">
             {pratoSelecionado && (
               <>
@@ -77,7 +71,7 @@ const Pratos = () => {
                   <img
                     src={fechar}
                     alt="Ícone de fechar"
-                    onClick={() => closeModal()}
+                    onClick={() => dispatch(closeModal())}
                   />
                 </header>
                 <div className="conteudo">
@@ -101,7 +95,7 @@ const Pratos = () => {
               </>
             )}
           </ModalContent>
-          <div className="overlay" onClick={() => closeModal()}></div>
+          <div className="overlay" onClick={() => dispatch(closeModal())}></div>
         </ModalBody>
       </GlobalContainer>
     </PratosContainer>
