@@ -1,14 +1,15 @@
 import { useParams } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { useState } from 'react'
 
 import CardPrato from '../CardPrato'
 import { PratosContainer, PratosList, ModalBody, ModalContent } from './styles'
 import { GlobalContainer } from '../../styles'
-import Restaurante from '../../models/Restaurante'
 import fechar from '../../assets/images/fechar.png'
 import LargeBtn from '../LargeBtn'
 
 import { useGetRestauranteByIdQuery } from '../../services/api'
+import { add, open } from '../../store/reducers/cart'
 
 type Prato = {
   foto: string
@@ -25,6 +26,7 @@ type ModalState = {
 
 const Pratos = () => {
   const { id } = useParams()
+  const dispatch = useDispatch()
 
   const { data: restaurante } = useGetRestauranteByIdQuery(id!)
 
@@ -37,6 +39,11 @@ const Pratos = () => {
     setModal({
       isVisible: false
     })
+  }
+
+  const addToCart = (pratoSelecionado: Prato) => {
+    dispatch(add(pratoSelecionado!))
+    dispatch(open())
   }
 
   if (!restaurante) {
@@ -82,11 +89,13 @@ const Pratos = () => {
                     <h3>{pratoSelecionado.nome}</h3>
                     <p>{pratoSelecionado.descricao}</p>
                     <p>Serve: {pratoSelecionado.porcao}</p>
-                    <LargeBtn
-                      text={`Adicionar ao carrinho - R$ ${pratoSelecionado.preco.toFixed(
-                        2
-                      )}`}
-                    />
+                    <div onClick={() => addToCart(pratoSelecionado)}>
+                      <LargeBtn
+                        text={`Adicionar ao carrinho - R$ ${pratoSelecionado.preco.toFixed(
+                          2
+                        )}`}
+                      />
+                    </div>
                   </div>
                 </div>
               </>
