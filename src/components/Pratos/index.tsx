@@ -83,7 +83,12 @@ const Pratos = () => {
                     <h3>{pratoSelecionado.nome}</h3>
                     <p>{pratoSelecionado.descricao}</p>
                     <p>Serve: {pratoSelecionado.porcao}</p>
-                    <div onClick={() => addToCart(pratoSelecionado)}>
+                    <div
+                      onClick={() => {
+                        addToCart(pratoSelecionado)
+                        dispatch(closeModal())
+                      }}
+                    >
                       <LargeBtn
                         text={`Adicionar ao carrinho - R$ ${pratoSelecionado.preco.toFixed(
                           2
