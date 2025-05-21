@@ -8,6 +8,8 @@ import Restaurante from '../../models/Restaurante'
 import fechar from '../../assets/images/fechar.png'
 import LargeBtn from '../LargeBtn'
 
+import { useGetRestauranteByIdQuery } from '../../services/api'
+
 type Prato = {
   foto: string
   preco: number
@@ -24,7 +26,8 @@ type ModalState = {
 const Pratos = () => {
   const { id } = useParams()
 
-  const [restaurante, setRestaurante] = useState<Restaurante>()
+  const { data: restaurante } = useGetRestauranteByIdQuery(id!)
+
   const [pratoSelecionado, setPratoSelecionado] = useState<Prato | null>(null)
   const [modal, setModal] = useState<ModalState>({
     isVisible: false
@@ -35,12 +38,6 @@ const Pratos = () => {
       isVisible: false
     })
   }
-
-  useEffect(() => {
-    fetch(`https://fake-api-tau.vercel.app/api/efood/restaurantes/${id}`)
-      .then((res) => res.json())
-      .then((res) => setRestaurante(res))
-  }, [id])
 
   if (!restaurante) {
     return <h3>Carregando...</h3>
