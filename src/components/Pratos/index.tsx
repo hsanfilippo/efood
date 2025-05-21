@@ -1,12 +1,17 @@
 import { useParams } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useState } from 'react'
 
 import CardPrato from '../CardPrato'
 import { PratosContainer, PratosList, ModalBody, ModalContent } from './styles'
 import { GlobalContainer } from '../../styles'
-import Restaurante from '../../models/Restaurante'
 import fechar from '../../assets/images/fechar.png'
 import LargeBtn from '../LargeBtn'
+
+import { useGetRestauranteByIdQuery } from '../../services/api'
+import { add, open } from '../../store/reducers/cart'
+import { closeModal, openModal } from '../../store/reducers/modal'
+import { RootReducer } from '../../store'
 
 type Prato = {
   foto: string
@@ -23,24 +28,17 @@ type ModalState = {
 
 const Pratos = () => {
   const { id } = useParams()
+  const dispatch = useDispatch()
+  const isOpen = useSelector((state: RootReducer) => state.modal.isOpen)
 
-  const [restaurante, setRestaurante] = useState<Restaurante>()
+  const { data: restaurante } = useGetRestauranteByIdQuery(id!)
+
   const [pratoSelecionado, setPratoSelecionado] = useState<Prato | null>(null)
-  const [modal, setModal] = useState<ModalState>({
-    isVisible: false
-  })
 
-  const closeModal = () => {
-    setModal({
-      isVisible: false
-    })
+  const addToCart = (pratoSelecionado: Prato) => {
+    dispatch(add(pratoSelecionado!))
+    dispatch(open())
   }
-
-  useEffect(() => {
-    fetch(`https://fake-api-tau.vercel.app/api/efood/restaurantes/${id}`)
-      .then((res) => res.json())
-      .then((res) => setRestaurante(res))
-  }, [id])
 
   if (!restaurante) {
     return <h3>Carregando...</h3>
@@ -59,13 +57,13 @@ const Pratos = () => {
                 id={prato.id}
                 onClick={() => {
                   setPratoSelecionado(prato)
-                  setModal({ isVisible: true })
+                  dispatch(openModal())
                 }}
               />
             </li>
           ))}
         </PratosList>
-        <ModalBody className={modal.isVisible ? 'visivel' : ''}>
+        <ModalBody className={isOpen ? 'visivel' : ''}>
           <ModalContent className="container">
             {pratoSelecionado && (
               <>
@@ -73,7 +71,7 @@ const Pratos = () => {
                   <img
                     src={fechar}
                     alt="Ícone de fechar"
-                    onClick={() => closeModal()}
+                    onClick={() => dispatch(closeModal())}
                   />
                 </header>
                 <div className="conteudo">
@@ -85,17 +83,24 @@ const Pratos = () => {
                     <h3>{pratoSelecionado.nome}</h3>
                     <p>{pratoSelecionado.descricao}</p>
                     <p>Serve: {pratoSelecionado.porcao}</p>
-                    <LargeBtn
-                      text={`Adicionar ao carrinho - R$ ${pratoSelecionado.preco.toFixed(
-                        2
-                      )}`}
-                    />
+                    <div
+                      onClick={() => {
+                        addToCart(pratoSelecionado)
+                        dispatch(closeModal())
+                      }}
+                    >
+                      <LargeBtn
+                        text={`Adicionar ao carrinho - R$ ${pratoSelecionado.preco.toFixed(
+                          2
+                        )}`}
+                      />
+                    </div>
                   </div>
                 </div>
               </>
             )}
           </ModalContent>
-          <div className="overlay" onClick={() => closeModal()}></div>
+          <div className="overlay" onClick={() => dispatch(closeModal())}></div>
         </ModalBody>
       </GlobalContainer>
     </PratosContainer>
