@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { cores } from '../../styles'
 
-import fechar from '../../assets/images/fechar.png'
+import lixeira from '../../assets/images/lixeira_vector.svg'
 
 export const Overlay = styled.div`
   position: absolute;
@@ -30,7 +30,7 @@ export const CartContainer = styled.div`
 `
 
 export const Sidebar = styled.aside`
-  background-color: ${cores.begeClaro};
+  background-color: ${cores.coral};
   z-index: 1;
   padding: 40px 16px 0 16px;
   max-width: 360px;
@@ -41,32 +41,12 @@ export const Sidebar = styled.aside`
   }
 `
 
-export const Prices = styled.p`
-  font-weight: bold;
-  font-size: 14px;
-  color: ${cores.branco};
-  margin-bottom: 24px;
-
-  span {
-    display: block;
-    font-size: 12px;
-    color: ${cores.branco};
-  }
-`
-
-export const Quantity = styled.p`
-  font-weight: bold;
-  font-size: 16px;
-  color: ${cores.branco};
-  margin-top: 32px;
-  margin-bottom: 16px;
-`
-
 export const CartItem = styled.li`
   display: flex;
-  border-bottom: 1px solid ${cores.branco};
-  padding: 8px 0;
+  padding: 8px 8px 12px 8px;
   position: relative;
+  background-color: ${cores.bege};
+  margin-bottom: 16px;
 
   img {
     height: 80px;
@@ -76,27 +56,37 @@ export const CartItem = styled.li`
   }
 
   h3 {
-    color: ${cores.branco};
+    color: ${cores.coral};
     font-weight: bold;
-    font-size: 16px;
+    font-size: 18px;
+    margin-bottom: 16px;
   }
 
   span {
     display: block;
-    color: ${cores.branco};
-    font-weight: bold;
+    color: ${cores.coral};
     font-size: 14px;
+    line-height: 22px;
   }
 
   button {
-    background-image: url(${fechar});
+    background-image: url(${lixeira});
     width: 16px;
     height: 16px;
     border: none;
     background-color: transparent;
     cursor: pointer;
     position: absolute;
-    top: 8px;
-    right: 0px;
+    bottom: 8px;
+    right: 8px;
   }
+`
+
+export const Total = styled.div`
+  font-size: 14px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  color: ${cores.bege};
+  margin-bottom: 8px;
 `
