@@ -6,6 +6,7 @@ import { CartContainer, CartItem, Overlay, Sidebar, Total } from './styles'
 import { RootReducer } from '../../store'
 import { close, remove } from '../../store/reducers/cart'
 import formataPreco from '../../utils/format/formataPreco'
+import CheckoutForms from '../CheckoutForms'
 
 const Cart = () => {
   const { isOpen, items } = useSelector((state: RootReducer) => state.cart)
@@ -30,7 +31,9 @@ const Cart = () => {
       <CartContainer className={isOpen ? 'is-open' : ''}>
         <Overlay onClick={() => closeCart()} />
         <Sidebar>
-          <ul>
+          <CheckoutForms />
+
+          {/* <ul>
             {items.map((item) => (
               <CartItem key={item.id}>
                 <img src={item.foto} alt={item.nome} />
@@ -46,7 +49,7 @@ const Cart = () => {
             <p>Valor total</p>
             <p>{formataPreco(getTotalPrice())}</p>
           </Total>
-          <LargeBtn text="Continuar com a entrega" />
+          <LargeBtn text="Continuar com a entrega" /> */}
         </Sidebar>
       </CartContainer>
     </>
