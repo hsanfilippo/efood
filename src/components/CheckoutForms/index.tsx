@@ -6,84 +6,102 @@ import {
   ButtonsContainer,
   Container,
   InputGroup,
+  LargeBtnSubmit,
   TabTitle,
   TextoConcluir
 } from './styles'
+import { useState } from 'react'
 
 const CheckoutForms = () => {
   const dispatch = useDispatch()
+  const [isDeliveryOk, setIsDeliveryOk] = useState(false)
+  const [isPaymentOk, setIsPaymentOk] = useState(false)
 
   return (
     <>
-      <Container>
-        <TabTitle>Entrega</TabTitle>
-        <InputGroup>
-          <label htmlFor="nomeCompleto">Quem irá receber</label>
-          <input type="text" id="nomeCompleto" />
-        </InputGroup>
-        <InputGroup>
-          <label htmlFor="endereco">Endereço</label>
-          <input type="text" id="endereco" />
-        </InputGroup>
-        <InputGroup>
-          <label htmlFor="cidade">Cidade</label>
-          <input type="text" id="cidade" />
-        </InputGroup>
-        <div className="input-flex">
-          <InputGroup maxWidth="140px">
-            <label htmlFor="cep">CEP</label>
-            <input type="text" id="cep" />
-          </InputGroup>
-          <InputGroup maxWidth="140px">
-            <label htmlFor="numero">Número</label>
-            <input type="text" id="numero" />
-          </InputGroup>
-        </div>
-        <InputGroup>
-          <label htmlFor="complemento">Complemento (opcional)</label>
-          <input type="text" id="complemento" />
-        </InputGroup>
-        <ButtonsContainer>
-          <LargeBtn text="Continuar com o pagamento" />
-          <div onClick={() => dispatch(close())}>
-            <LargeBtn text="Voltar para o carrinho" />
-          </div>
-        </ButtonsContainer>
-      </Container>
-      {/* <Container>
-        <div className="formCheckout">
-          <TabTitle>Pagamento - Valor a pagar R$ 190,90</TabTitle>
-          <InputGroup>
-            <label htmlFor="nomeCompleto">Nome no cartão</label>
-            <input type="text" id="nomeCompleto" />
-          </InputGroup>
-          <div className="input-flex">
-            <InputGroup maxWidth="228px">
-              <label htmlFor="endereco">Número do cartão</label>
-              <input type="text" id="endereco" />
+      <form action="submit">
+        {isDeliveryOk ? (
+          <Container>
+            <div className="formCheckout">
+              <TabTitle>Pagamento - Valor a pagar R$ 190,90</TabTitle>
+              <InputGroup>
+                <label htmlFor="nomeCompleto">Nome no cartão</label>
+                <input type="text" id="nomeCompleto" required />
+              </InputGroup>
+              <div className="input-flex">
+                <InputGroup maxWidth="228px">
+                  <label htmlFor="endereco">Número do cartão</label>
+                  <input type="text" id="endereco" required />
+                </InputGroup>
+                <InputGroup maxWidth="87px">
+                  <label htmlFor="cidade">CVV</label>
+                  <input type="text" id="cidade" required />
+                </InputGroup>
+              </div>
+              <div className="input-flex">
+                <InputGroup maxWidth="140px">
+                  <label htmlFor="cep">Mês de vencimento</label>
+                  <input type="text" id="cep" required />
+                </InputGroup>
+                <InputGroup maxWidth="140px">
+                  <label htmlFor="numero">Ano de vencimento</label>
+                  <input type="text" id="numero" required />
+                </InputGroup>
+              </div>
+              <ButtonsContainer>
+                <LargeBtnSubmit type="submit">
+                  Finalizar pagamento
+                </LargeBtnSubmit>
+                <div onClick={() => setIsDeliveryOk(false)}>
+                  <LargeBtn text="Voltar para a edição de endereço" />
+                </div>
+              </ButtonsContainer>
+            </div>
+          </Container>
+        ) : (
+          <Container>
+            <TabTitle>Entrega</TabTitle>
+            <InputGroup>
+              <label htmlFor="nomeCompleto">Quem irá receber</label>
+              <input type="text" id="nomeCompleto" required />
             </InputGroup>
-            <InputGroup maxWidth="87px">
-              <label htmlFor="cidade">CVV</label>
-              <input type="text" id="cidade" />
+            <InputGroup>
+              <label htmlFor="endereco">Endereço</label>
+              <input type="text" id="endereco" required />
             </InputGroup>
-          </div>
-          <div className="input-flex">
-            <InputGroup maxWidth="140px">
-              <label htmlFor="cep">Mês de vencimento</label>
-              <input type="text" id="cep" />
+            <InputGroup>
+              <label htmlFor="cidade">Cidade</label>
+              <input type="text" id="cidade" required />
             </InputGroup>
-            <InputGroup maxWidth="140px">
-              <label htmlFor="numero">Ano de vencimento</label>
-              <input type="text" id="numero" />
+            <div className="input-flex">
+              <InputGroup maxWidth="140px">
+                <label htmlFor="cep">CEP</label>
+                <input type="text" id="cep" required />
+              </InputGroup>
+              <InputGroup maxWidth="140px">
+                <label htmlFor="numero">Número</label>
+                <input type="text" id="numero" required />
+              </InputGroup>
+            </div>
+            <InputGroup>
+              <label htmlFor="complemento">Complemento (opcional)</label>
+              <input type="text" id="complemento" />
             </InputGroup>
-          </div>
-          <ButtonsContainer>
-            <LargeBtn text="Finalizar pagamento" />
-
-            <LargeBtn text="Voltar para a edição de endereço" />
-          </ButtonsContainer>
-        </div>
-      </Container> */}
+            <ButtonsContainer>
+              <div onClick={() => setIsDeliveryOk(true)}>
+                <LargeBtn text="Continuar com o pagamento" />
+              </div>
+              <div
+                onClick={() => {
+                  dispatch(close())
+                }}
+              >
+                <LargeBtn text="Voltar para o carrinho" />
+              </div>
+            </ButtonsContainer>
+          </Container>
+        )}
+      </form>
       {/* <div className="confirma-pedido">
         <TabTitle>Pedido realizado - ORDER_ID</TabTitle>
         <TextoConcluir>

@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { cores } from '../../styles'
+import { ButtonBody } from '../LargeBtn/styles'
 
 type InputGroupProps = {
   maxWidth?: string
@@ -56,3 +57,5 @@ export const TextoConcluir = styled.p`
 export const ButtonsContainer = styled.div`
   margin-top: 24px;
 `
+
+export const LargeBtnSubmit = styled(ButtonBody)``
