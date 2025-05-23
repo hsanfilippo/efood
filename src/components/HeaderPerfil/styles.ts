@@ -24,6 +24,14 @@ export const BannerBg = styled.header`
     }
   }
 
+  h3 {
+    cursor: pointer;
+
+    &:hover {
+      color: ${cores.amarelo};
+    }
+  }
+
   .container {
     display: flex;
     justify-content: space-between;

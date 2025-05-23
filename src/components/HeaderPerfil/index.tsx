@@ -1,3 +1,4 @@
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import {
   BannerBg,
@@ -7,10 +8,10 @@ import {
   TitleRestaurante
 } from './styles'
 import { Logo, GlobalContainer } from '../../styles'
-
+import { open as openCart } from '../../store/reducers/cart'
+import { close as closeCheckout } from '../../store/reducers/checkout'
 import bannerVector from '../../assets/images/banner_vector.svg'
 import logoVector from '../../assets/images/logo_vector.svg'
-import { useSelector } from 'react-redux'
 import { RootReducer } from '../../store'
 
 type Props = {
@@ -21,6 +22,7 @@ type Props = {
 
 const HeaderPerfil = ({ cover, title, type }: Props) => {
   const { items } = useSelector((state: RootReducer) => state.cart)
+  const dispatch = useDispatch()
 
   return (
     <>
@@ -31,7 +33,14 @@ const HeaderPerfil = ({ cover, title, type }: Props) => {
             <Link to="/">
               <Logo src={logoVector} alt="" />
             </Link>
-            <h3>{items.length} produto(s) no carrinho</h3>
+            <h3
+              onClick={() => {
+                dispatch(openCart())
+                dispatch(closeCheckout())
+              }}
+            >
+              {items.length} produto(s) no carrinho
+            </h3>
           </GlobalContainer>
         </BannerBg>
         <HeroBg style={{ backgroundImage: `url(${cover})` }}>
