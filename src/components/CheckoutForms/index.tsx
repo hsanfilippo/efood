@@ -1,3 +1,6 @@
+import { useDispatch } from 'react-redux'
+import { close } from '../../store/reducers/checkout'
+
 import LargeBtn from '../LargeBtn'
 import {
   ButtonsContainer,
@@ -8,9 +11,11 @@ import {
 } from './styles'
 
 const CheckoutForms = () => {
+  const dispatch = useDispatch()
+
   return (
     <>
-      {/* <Container>
+      <Container>
         <TabTitle>Entrega</TabTitle>
         <InputGroup>
           <label htmlFor="nomeCompleto">Quem irá receber</label>
@@ -40,10 +45,12 @@ const CheckoutForms = () => {
         </InputGroup>
         <ButtonsContainer>
           <LargeBtn text="Continuar com o pagamento" />
-          <LargeBtn text="Voltar para o carrinho" />
+          <div onClick={() => dispatch(close())}>
+            <LargeBtn text="Voltar para o carrinho" />
+          </div>
         </ButtonsContainer>
-      </Container> */}
-      <Container>
+      </Container>
+      {/* <Container>
         <div className="formCheckout">
           <TabTitle>Pagamento - Valor a pagar R$ 190,90</TabTitle>
           <InputGroup>
@@ -72,10 +79,11 @@ const CheckoutForms = () => {
           </div>
           <ButtonsContainer>
             <LargeBtn text="Finalizar pagamento" />
+
             <LargeBtn text="Voltar para a edição de endereço" />
           </ButtonsContainer>
         </div>
-      </Container>
+      </Container> */}
       {/* <div className="confirma-pedido">
         <TabTitle>Pedido realizado - ORDER_ID</TabTitle>
         <TextoConcluir>
