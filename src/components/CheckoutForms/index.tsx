@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import {
   Formik,
   Form,
@@ -9,7 +9,11 @@ import {
   FormikProps
 } from 'formik'
 import * as Yup from 'yup'
-import { close } from '../../store/reducers/checkout'
+import {
+  close as closeCheckout,
+  setOrderId
+} from '../../store/reducers/checkout'
+import { close as closeCart, clear } from '../../store/reducers/cart'
 
 import LargeBtn from '../LargeBtn'
 import {
@@ -21,7 +25,11 @@ import {
   TextoConcluir
 } from './styles'
 
-// --- Tipagem do formulário ---
+import { usePurchaseMutation } from '../../services/api'
+import { RootReducer } from '../../store'
+import { getTotalPrice } from '../../utils/getTotalPrice'
+import formataPreco from '../../utils/formataPreco'
+
 type DeliveryAddress = {
   description: string
   city: string
@@ -108,23 +116,56 @@ const validationSchema = Yup.object({
   }).required()
 })
 
-const CheckoutForms: React.FC = () => {
+const CheckoutForms = () => {
   const dispatch = useDispatch()
-  const [isDeliveryOk, setIsDeliveryOk] = useState(false)
+  const [isPaymentOk, setIsPaymentOk] = useState(false)
+  const [isDeliveryHidden, setIsDeliveryHidden] = useState(false)
+  const [isPaymentHidden, setIsPaymentHidden] = useState(true)
 
-  const handleSubmit = (
-    values: FormValues,
-    actions: FormikHelpers<FormValues>
-  ) => {
-    if (!isDeliveryOk) {
-      // Se estiver na etapa de entrega, valida e passa para pagamento
-      setIsDeliveryOk(true)
-      actions.setTouched({}) // resetar erros
-    } else {
-      // Etapa pagamento: aqui você pode disparar o submit final
-      console.log('Enviar para API:', values)
-      // resetar o form ou fechar modal se quiser
-      dispatch(close())
+  const cartItems = useSelector((state: RootReducer) => state.cart.items)
+  const orderId = useSelector((state: RootReducer) => state.checkout.orderId)
+
+  const [purchase, { isLoading, isError, isSuccess }] = usePurchaseMutation()
+
+  const handleSubmit = async (values: any) => {
+    const payload = {
+      products: cartItems.map((item: any) => ({
+        id: item.id,
+        price: item.price
+      })),
+      delivery: {
+        receiver: values.receiver,
+        address: {
+          description: values.address,
+          city: values.city,
+          zipCode: values.zipCode,
+          number: Number(values.number),
+          complement: values.complement
+        }
+      },
+      payment: {
+        card: {
+          name: values.cardName,
+          number: values.cardNumber,
+          code: Number(values.cardCode),
+          expires: {
+            month: Number(values.expMonth),
+            year: Number(values.expYear)
+          }
+        }
+      }
+    }
+
+    try {
+      const response = await purchase(payload).unwrap()
+      console.log('Pedido enviado com sucesso:', response)
+      dispatch(setOrderId(response.orderId))
+      dispatch(clear())
+      setIsDeliveryHidden(true)
+      setIsPaymentHidden(true)
+      setIsPaymentOk(true)
+    } catch (error) {
+      console.error('Erro ao enviar pedido:', error)
     }
   }
 
@@ -138,10 +179,13 @@ const CheckoutForms: React.FC = () => {
     >
       {({ errors, touched, isSubmitting }: FormikProps<FormValues>) => (
         <Form>
-          {isDeliveryOk ? (
+          {!isPaymentHidden && (
             <Container>
               <div className="formCheckout">
-                <TabTitle>Pagamento - Valor a pagar R$ 190,90</TabTitle>
+                <TabTitle>
+                  Pagamento - Valor a pagar
+                  {` ${formataPreco(getTotalPrice(cartItems))}`}
+                </TabTitle>
 
                 <InputGroup>
                   <label htmlFor="payment.card.name">Nome no cartão</label>
@@ -193,13 +237,19 @@ const CheckoutForms: React.FC = () => {
                   <LargeBtnSubmit type="submit" disabled={isSubmitting}>
                     Finalizar pagamento
                   </LargeBtnSubmit>
-                  <div onClick={() => setIsDeliveryOk(false)}>
+                  <div
+                    onClick={() => {
+                      setIsDeliveryHidden(false)
+                      setIsPaymentHidden(true)
+                    }}
+                  >
                     <LargeBtn text="Voltar para a edição de endereço" />
                   </div>
                 </ButtonsContainer>
               </div>
             </Container>
-          ) : (
+          )}
+          {!isDeliveryHidden && (
             <Container>
               <TabTitle>Entrega</TabTitle>
 
@@ -253,13 +303,42 @@ const CheckoutForms: React.FC = () => {
 
               <ButtonsContainer>
                 <LargeBtnSubmit
-                  onClick={() => setIsDeliveryOk(true)}
+                  onClick={() => {
+                    setIsPaymentHidden(false)
+                    setIsDeliveryHidden(true)
+                  }}
                   type="submit"
                 >
                   Continuar com o pagamento
                 </LargeBtnSubmit>
-                <div onClick={() => dispatch(close())}>
+                <div onClick={() => dispatch(closeCheckout())}>
                   <LargeBtn text="Voltar para o carrinho" />
+                </div>
+              </ButtonsContainer>
+            </Container>
+          )}
+          {isPaymentOk && (
+            <Container>
+              <TabTitle>Pedido realizado - {orderId}</TabTitle>
+              <TextoConcluir>
+                Estamos felizes em informar que seu pedido já está em processo
+                de preparação e, em breve, será entregue no endereço fornecido.{' '}
+                <br />
+                <br />
+                Gostaríamos de ressaltar que nossos entregadores não estão
+                autorizados a realizar cobranças extras. <br />
+                <br />
+                Lembre-se da importância de higienizar as mãos após o
+                recebimento do pedido, garantindo assim sua segurança e
+                bem-estar durante a refeição.
+                <br />
+                <br />
+                Esperamos que desfrute de uma deliciosa e agradável experiência
+                gastronômica. Bom apetite!
+              </TextoConcluir>
+              <ButtonsContainer>
+                <div onClick={() => dispatch(closeCart())}>
+                  <LargeBtn text="Concluir" />
                 </div>
               </ButtonsContainer>
             </Container>
