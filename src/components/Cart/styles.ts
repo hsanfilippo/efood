@@ -39,6 +39,25 @@ export const Sidebar = styled.aside`
   button {
     width: 100%;
   }
+
+  .empty-cart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    img {
+      width: 220px;
+      margin-bottom: 16px;
+      opacity: 0.7;
+    }
+
+    p {
+      font-size: 16px;
+      font-weight: bold;
+      text-align: center;
+      color: ${cores.bege};
+    }
+  }
 `
 
 export const CartItem = styled.li`

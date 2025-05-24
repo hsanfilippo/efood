@@ -6,7 +6,7 @@ import { CartContainer, CartItem, Overlay, Sidebar, Total } from './styles'
 import { RootReducer } from '../../store'
 import { close, remove } from '../../store/reducers/cart'
 import { open } from '../../store/reducers/checkout'
-import formataPreco from '../../utils/format/formataPreco'
+import formataPreco from '../../utils/formataPreco'
 import CheckoutForms from '../CheckoutForms'
 
 const Cart = () => {
@@ -37,25 +37,40 @@ const Cart = () => {
             <CheckoutForms />
           ) : (
             <>
-              <ul>
-                {items.map((item) => (
-                  <CartItem key={item.id}>
-                    <img src={item.foto} alt={item.nome} />
-                    <div>
-                      <h3>{item.nome}</h3>
-                      <span>{formataPreco(item.preco)}</span>
-                    </div>
-                    <button onClick={() => removeItem(item.id)} type="button" />
-                  </CartItem>
-                ))}
-              </ul>
-              <Total>
-                <p>Valor total</p>
-                <p>{formataPreco(getTotalPrice())}</p>
-              </Total>
-              <div onClick={() => dispatch(open())}>
-                <LargeBtn text="Continuar com a entrega" />
-              </div>
+              {items.length < 1 ? (
+                <div className="empty-cart">
+                  <img
+                    src="https://static-file-vault.vercel.app/images/396946954_11518396.svg"
+                    alt="Carrinho vazio"
+                  />
+                  <p>Ops... seu carrinho está vazio</p>
+                </div>
+              ) : (
+                <>
+                  <ul>
+                    {items.map((item) => (
+                      <CartItem key={item.id}>
+                        <img src={item.foto} alt={item.nome} />
+                        <div>
+                          <h3>{item.nome}</h3>
+                          <span>{formataPreco(item.preco)}</span>
+                        </div>
+                        <button
+                          onClick={() => removeItem(item.id)}
+                          type="button"
+                        />
+                      </CartItem>
+                    ))}
+                  </ul>
+                  <Total>
+                    <p>Valor total</p>
+                    <p>{formataPreco(getTotalPrice())}</p>
+                  </Total>
+                  <div onClick={() => dispatch(open())}>
+                    <LargeBtn text="Continuar com a entrega" />
+                  </div>
+                </>
+              )}
             </>
           )}
         </Sidebar>
