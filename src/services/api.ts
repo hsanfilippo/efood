@@ -14,7 +14,7 @@ type PurchasePayload = {
       description: string
       city: string
       zipCode: string
-      number: 12
+      number: number
       complement: string
     }
   }
