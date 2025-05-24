@@ -1,11 +1,13 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 type CheckoutState = {
   isCheckoutOpen: boolean
+  orderId: string | null
 }
 
 const initialState: CheckoutState = {
-  isCheckoutOpen: false
+  isCheckoutOpen: false,
+  orderId: null
 }
 
 const checkoutSlice = createSlice({
@@ -17,9 +19,15 @@ const checkoutSlice = createSlice({
     },
     close: (state) => {
       state.isCheckoutOpen = false
+    },
+    setOrderId: (state, action: PayloadAction<string>) => {
+      state.orderId = action.payload
+    },
+    resetOrderId: (state) => {
+      state.orderId = null
     }
   }
 })
 
-export const { open, close } = checkoutSlice.actions
+export const { open, close, setOrderId, resetOrderId } = checkoutSlice.actions
 export default checkoutSlice.reducer
